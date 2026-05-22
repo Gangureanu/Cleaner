@@ -1,0 +1,33 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E8F5F0"/>
+      <stop offset="1" stop-color="#D7EBFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+
+  <rect x="80" y="120" width="1040" height="560" rx="28" fill="#FFFFFF" stroke="#C9D9E8" stroke-width="4"/>
+
+  <rect x="180" y="190" width="380" height="360" rx="18" fill="#F3F8FC" stroke="#D8E4EF"/>
+  <rect x="640" y="220" width="380" height="300" rx="18" fill="#F8FBFE" stroke="#D8E4EF"/>
+
+  <rect x="230" y="250" width="280" height="18" rx="9" fill="#B6C9DA"/>
+  <rect x="230" y="292" width="220" height="18" rx="9" fill="#C8D7E4"/>
+  <rect x="230" y="334" width="240" height="18" rx="9" fill="#C8D7E4"/>
+
+  <circle cx="770" cy="360" r="90" fill="#7DBA96"/>
+  <path d="M770 300V420" stroke="white" stroke-width="18" stroke-linecap="round"/>
+  <path d="M710 360H830" stroke="white" stroke-width="18" stroke-linecap="round"/>
+
+  <rect x="220" y="480" width="120" height="110" rx="12" fill="#5E91B7"/>
+  <rect x="350" y="465" width="95" height="125" rx="10" fill="#3F708F"/>
+  <rect x="455" y="500" width="90" height="90" rx="10" fill="#8BB6CF"/>
+
+  <path d="M915 515C960 455 1035 445 1080 485" stroke="#4A7F61" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="915" cy="515" r="16" fill="#4A7F61"/>
+  <circle cx="1080" cy="485" r="16" fill="#4A7F61"/>
+
+  <text x="600" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#355B78">Cleaning Service - Site Upgrade</text>
+  <text x="600" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5D7E97">Under Construction / Maintenance</text>
+</svg>
