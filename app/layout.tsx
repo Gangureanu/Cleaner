@@ -45,6 +45,9 @@ export default function RootLayout({
               <p>
                 Call us: <a href="tel:+35345870407">+353 45 870 407</a> | <a href="tel:+353852864466">+353 85 286 4466</a>
               </p>
+              <p>
+                Email: <a href="mailto:contact@emeraldspotless.ie">contact@emeraldspotless.ie</a>
+              </p>
             </div>
           </div>
         </footer>
