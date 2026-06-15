@@ -335,6 +335,137 @@ tbody tr:last-child td {
   }
 }
 
+body:has(.posterPage) .siteHeader,
+body:has(.posterPage) .siteFooter {
+  display: none;
+}
+
+body:has(.posterPage) {
+  background: #ffffff;
+}
+
+.posterPage {
+  min-height: 100vh;
+  padding: 18px;
+  background: #ffffff;
+}
+
+.posterSheet {
+  width: min(210mm, 100%);
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 14mm 12mm;
+  border: 1px solid #d9e6dd;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(14, 143, 79, 0.15), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #f4fff7 100%);
+  color: #123522;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.posterLogo {
+  width: min(300px, 78%);
+  height: auto;
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+
+.posterKicker {
+  margin: 0;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #0a7a47;
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+.posterTitle {
+  margin: 8px 0 12px;
+  color: #005736;
+  font-family: "Baskerville", "Palatino Linotype", serif;
+  font-size: clamp(2rem, 5.2vw, 3rem);
+  line-height: 1.1;
+}
+
+.posterText {
+  max-width: 52ch;
+  color: #2a4d3b;
+  margin: 0 0 16px;
+  line-height: 1.55;
+}
+
+.posterQrLink {
+  display: inline-flex;
+  border-radius: 14px;
+  border: 1px solid #c9e2d2;
+  background: #ffffff;
+  padding: 8px;
+}
+
+.posterQr {
+  width: min(280px, 70vw);
+  height: auto;
+}
+
+.posterSiteUrl {
+  margin: 10px 0 16px;
+  font-weight: 700;
+  color: #0d5e38;
+  word-break: break-all;
+}
+
+.posterContacts {
+  width: min(560px, 100%);
+  border: 1px solid #cde6d6;
+  border-radius: 14px;
+  padding: 12px;
+  background: #fbfffc;
+}
+
+.posterContacts h2 {
+  margin: 0 0 8px;
+  color: #005736;
+}
+
+.posterContacts p {
+  margin: 6px 0;
+  color: #1f4633;
+  font-weight: 600;
+}
+
+.posterContacts a {
+  color: #005736;
+  text-decoration: none;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  .posterPage {
+    padding: 0;
+  }
+
+  .posterSheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+  }
+}
+
 @media (min-width: 900px) {
   .headerTopRow {
     flex-wrap: nowrap;
