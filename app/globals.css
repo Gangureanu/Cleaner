@@ -39,10 +39,10 @@ a {
 .headerInner {
   width: min(1120px, 100%);
   margin: 0 auto;
-  padding: 6px 12px 8px;
+  padding: 6px 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0;
 }
 
 .headerTopRow {
@@ -62,17 +62,6 @@ a {
   width: min(58px, 16vw);
   height: auto;
   border-radius: 8px;
-}
-
-.headerTextRow {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.brandText {
-  width: min(260px, 72vw);
-  height: auto;
 }
 
 .mainNav {

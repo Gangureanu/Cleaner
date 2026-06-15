@@ -32,10 +32,6 @@ export default function RootLayout({
                 <a href="tel:+353852864466">+353 85 286 4466</a>
               </div>
             </div>
-
-            <div className="headerTextRow">
-              <img src="/logo-text.jpeg" alt="Emerald Spotless" className="brandText" />
-            </div>
           </div>
         </header>
 
