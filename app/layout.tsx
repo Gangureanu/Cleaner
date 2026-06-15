@@ -40,10 +40,12 @@ export default function RootLayout({
         <footer className="siteFooter">
           <div className="footerInner">
             <img src="/logo.jpeg" alt="Emerald Spotless logo" className="footerLogo" />
-            <p>Emerald Spotless Cleaning | Kildare and Leinster service coverage.</p>
-            <p>
-              Call us: <a href="tel:+35345870407">+353 45 870 407</a> | <a href="tel:+353852864466">+353 85 286 4466</a>
-            </p>
+            <div className="footerContent">
+              <p>Emerald Spotless Cleaning | Kildare and Leinster service coverage.</p>
+              <p>
+                Call us: <a href="tel:+35345870407">+353 45 870 407</a> | <a href="tel:+353852864466">+353 85 286 4466</a>
+              </p>
+            </div>
           </div>
         </footer>
       </body>

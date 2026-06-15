@@ -281,8 +281,8 @@ tbody tr:last-child td {
   width: min(1020px, 100%);
   margin: 0 auto;
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
+  align-items: center;
+  gap: 20px;
   color: #184a32;
 }
 
@@ -293,8 +293,13 @@ tbody tr:last-child td {
   border-radius: 12px;
 }
 
+.footerContent {
+  flex: 1;
+  text-align: center;
+}
+
 .footerInner p {
-  margin: 2px 0;
+  margin: 4px 0;
   font-size: 0.95rem;
 }
 
