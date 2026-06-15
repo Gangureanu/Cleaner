@@ -4,7 +4,6 @@ export default function HomePage() {
   return (
     <main className="site">
       <section className="hero reveal">
-        <img src="/logo.jpeg" alt="Emerald Spotless logo" className="logo" />
         <p className="kicker">Domestic and Commercial Cleaning</p>
         <h1>Spotless Cleaning For Homes and Businesses</h1>
         <p className="summary">

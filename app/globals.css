@@ -39,7 +39,13 @@ a {
 .headerInner {
   width: min(1120px, 100%);
   margin: 0 auto;
-  padding: 6px 12px;
+  padding: 6px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.headerTopRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -52,10 +58,21 @@ a {
   align-items: center;
 }
 
-.brandLogo {
-  width: min(150px, 44vw);
+.brandIcon {
+  width: min(58px, 16vw);
   height: auto;
-  border-radius: 10px;
+  border-radius: 8px;
+}
+
+.headerTextRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.brandText {
+  width: min(260px, 72vw);
+  height: auto;
 }
 
 .mainNav {
@@ -278,6 +295,13 @@ tbody tr:last-child td {
   color: #184a32;
 }
 
+.footerLogo {
+  width: min(220px, 72vw);
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
 .footerInner p {
   margin: 5px 0;
 }
@@ -315,7 +339,7 @@ tbody tr:last-child td {
 }
 
 @media (min-width: 900px) {
-  .headerInner {
+  .headerTopRow {
     flex-wrap: nowrap;
   }
 
