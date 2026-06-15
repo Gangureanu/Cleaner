@@ -280,19 +280,22 @@ tbody tr:last-child td {
 .footerInner {
   width: min(1020px, 100%);
   margin: 0 auto;
-  text-align: center;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
   color: #184a32;
 }
 
 .footerLogo {
-  width: min(220px, 72vw);
+  width: min(180px, 50vw);
+  flex-shrink: 0;
   height: auto;
   border-radius: 12px;
-  margin-bottom: 8px;
 }
 
 .footerInner p {
-  margin: 5px 0;
+  margin: 2px 0;
+  font-size: 0.95rem;
 }
 
 .footerInner a {
