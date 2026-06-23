@@ -1,11 +1,10 @@
-﻿import type { Metadata } from "next";
+﻿'use client';
+
+import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "Emerald Spotless Cleaning",
-  description: "Domestic and commercial cleaning across Kildare and Leinster."
-};
+import { LanguageProvider } from "@/lib/LanguageContext";
+import { LanguageToggle } from "./components/LanguageToggle";
 
 export default function RootLayout({
   children,
@@ -15,25 +14,31 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="siteHeader">
-          <div className="headerInner">
-            <div className="headerTopRow">
-              <Link href="/" className="brandLink" aria-label="Home">
-                <img src="/logo-icon.jpeg" alt="Emerald Spotless icon" className="brandIcon" />
-              </Link>
-              <nav className="mainNav" aria-label="Main navigation">
-                <Link href="/">Home</Link>
-                <Link href="/pricing">Pricing</Link>
-                <Link href="/location">Location</Link>
-                <Link href="/contact">Contact</Link>
-              </nav>
-              <div className="headerPhones">
-                <a href="tel:+35345870407">+353 45 870 407</a>
-                <a href="tel:+353852864466">+353 85 286 4466</a>
+        <LanguageProvider>
+          <header className="siteHeader">
+            <div className="headerInner">
+              <div className="headerTopRow">
+                <Link href="/" className="brandLink" aria-label="Home">
+                  <img src="/logo-icon.jpeg" alt="Emerald Spotless icon" className="brandIcon" />
+                </Link>
+                <nav className="mainNav" aria-label="Main navigation">
+                  <Link href="/">Home</Link>
+                  <Link href="/pricing">Pricing</Link>
+                  <Link href="/location">Location</Link>
+                  <Link href="/contact">Contact</Link>
+                  <Link href="/booking">Book Now</Link>
+                  <Link href="/checkout">Payment</Link>
+                </nav>
+                <div className="headerControls">
+                  <LanguageToggle />
+                  <div className="headerPhones">
+                    <a href="tel:+35345870407">+353 45 870 407</a>
+                    <a href="tel:+353852864466">+353 85 286 4466</a>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </header>
+          </header>
 
         {children}
 
@@ -51,6 +56,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        </LanguageProvider>
       </body>
     </html>
   );
