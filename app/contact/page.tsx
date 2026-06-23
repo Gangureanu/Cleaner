@@ -10,7 +10,7 @@ export default function ContactPage() {
         </p>
       </section>
 
-      <section className="grid twoCol">
+      <section className="grid threeCol">
         <article className="panelCard reveal">
           <h3>Phone Numbers</h3>
           <p>
@@ -26,6 +26,15 @@ export default function ContactPage() {
           <p>
             Email: <a className="phoneLink" href="mailto:contact@emeraldspotless.ie">contact@emeraldspotless.ie</a>
           </p>
+        </article>
+
+        <article className="panelCard reveal">
+          <h3>Address</h3>
+          <p>G. & R. Great Food Catering</p>
+          <p>Brockagh Farms</p>
+          <p>Brockagh, Robertstown</p>
+          <p>Naas, Co Kildare</p>
+          <p>W91 C7RF</p>
         </article>
 
         <article className="panelCard reveal">

@@ -26,11 +26,26 @@ export default function LocationPage() {
         <article className="panelCard reveal">
           <h3>Property Types</h3>
           <ul className="cleanList">
-            <li>Domestic homes and apartments</li>
+            <li>Houses</li>
+            <li>Apartments</li>
+            <li>Studios</li>
+            <li>Sheds</li>
             <li>Commercial units and offices</li>
             <li>Private properties and landlords</li>
             <li>Sports clubs and associations</li>
             <li>Community and local activity spaces</li>
+          </ul>
+        </article>
+
+        <article className="panelCard reveal">
+          <h3>Specialized Services</h3>
+          <ul className="cleanList">
+            <li>Attic Cleaning</li>
+            <li>Window Cleaning</li>
+            <li>Driveway Cleaning</li>
+            <li>Deep Cleaning</li>
+            <li>Move-In/Move-Out Cleaning</li>
+            <li>Recurring Maintenance Plans</li>
           </ul>
         </article>
       </section>
