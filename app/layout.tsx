@@ -39,7 +39,7 @@ export default function RootLayout({
 
         <footer className="siteFooter">
           <div className="footerInner">
-            <img src="/logo.jpeg" alt="Emerald Spotless logo" className="footerLogo" />
+            <img src="/logo.png" alt="Emerald Spotless logo" className="footerLogo" />
             <div className="footerContent">
               <p>Emerald Spotless Cleaning | Kildare and Leinster service coverage.</p>
               <p>

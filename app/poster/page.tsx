@@ -16,7 +16,7 @@ export default function PosterPage() {
   return (
     <main className="posterPage">
       <article className="posterSheet">
-        <img src="/logo.jpeg" alt="Emerald Spotless" className="posterLogo" />
+        <img src="/logo.png" alt="Emerald Spotless" className="posterLogo" />
 
         <p className="posterKicker">Domestic and Commercial Cleaning</p>
         <h1 className="posterTitle">Book Your Cleaning Today</h1>
