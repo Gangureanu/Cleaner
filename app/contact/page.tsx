@@ -37,7 +37,7 @@ export default function ContactPage() {
           <p>W91 C7RF</p>
         </article>
 
-        <article className="panelCard reveal">
+        <article className="panelCard reveal hoursCard">
           <h3>Hours</h3>
           <p>Monday to Saturday</p>
           <p>08:00 - 19:00</p>

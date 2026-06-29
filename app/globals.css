@@ -211,7 +211,11 @@ h3 {
 
 .contactFormWrap {
   max-width: 1020px;
-  margin: 0 auto;
+  margin: 16px auto 0;
+}
+
+.hoursCard {
+  grid-column: 1 / -1;
 }
 
 .contactForm {
