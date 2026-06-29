@@ -1,27 +1,21 @@
 'use client';
 
 import { useLanguage } from '../../lib/LanguageContext';
-import type { Language } from '../../lib/translations';
 
 export function LanguageToggle() {
   const { language, setLanguage } = useLanguage();
 
   return (
     <div className="languageToggle">
-      <button
-        className={`langBtn ${language === 'en' ? 'active' : ''}`}
-        onClick={() => setLanguage('en')}
-        title="English"
+      <select
+        className="languageSelect"
+        value={language}
+        onChange={(event) => setLanguage(event.target.value as 'en' | 'ga')}
+        aria-label="Select language"
       >
-        EN
-      </button>
-      <button
-        className={`langBtn ${language === 'ga' ? 'active' : ''}`}
-        onClick={() => setLanguage('ga')}
-        title="Gaeilge"
-      >
-        GA
-      </button>
+        <option value="en">English</option>
+        <option value="ga">Gaeilge</option>
+      </select>
     </div>
   );
 }

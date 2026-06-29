@@ -30,11 +30,11 @@ export default function RootLayout({
                   <Link href="/checkout">Payment</Link>
                 </nav>
                 <div className="headerControls">
-                  <LanguageToggle />
                   <div className="headerPhones">
                     <a href="tel:+35345870407">+353 45 870 407</a>
                     <a href="tel:+353852864466">+353 85 286 4466</a>
                   </div>
+                  <LanguageToggle />
                 </div>
               </div>
             </div>
