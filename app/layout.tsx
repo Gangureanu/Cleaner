@@ -26,7 +26,7 @@ export default function RootLayout({
                   <Link href="/pricing">Pricing</Link>
                   <Link href="/location">Location</Link>
                   <Link href="/contact">Contact</Link>
-                  <Link href="/booking">Booking</Link>
+                  <Link href="/booking">Book Now</Link>
                   <Link href="/checkout">Payment</Link>
                 </nav>
                 <div className="headerControls">
