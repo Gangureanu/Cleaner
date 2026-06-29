@@ -48,14 +48,6 @@ export default function HomePage() {
         </article>
       </section>
 
-      <section className="comingSoon reveal">
-        <h2>Coming Soon</h2>
-        <ul className="cleanList">
-          <li>Online Stripe Payment Integration</li>
-          <li>Calendar Booking System</li>
-          <li>English & Irish Language Support</li>
-        </ul>
-      </section>
     </main>
   );
 }
