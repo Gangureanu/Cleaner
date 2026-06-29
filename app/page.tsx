@@ -13,7 +13,7 @@ export default function HomePage() {
         </p>
       </section>
 
-      <section className="grid threeCol">
+      <section className="grid twoCol">
         <article className="panelCard reveal">
           <h3>Pricing</h3>
           <p>
@@ -44,6 +44,17 @@ export default function HomePage() {
           </p>
           <Link href="/contact" className="ctaLink">
             Get in touch
+          </Link>
+        </article>
+
+        <article className="panelCard reveal">
+          <h3>Book Now</h3>
+          <p>
+            Use our booking calendar to choose your service, date, and preferred
+            timeslot before checkout.
+          </p>
+          <Link href="/booking" className="ctaLink">
+            Start booking
           </Link>
         </article>
       </section>
