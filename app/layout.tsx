@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-import { LanguageProvider } from "@/lib/LanguageContext";
+import { LanguageProvider } from "../lib/LanguageContext";
 import { LanguageToggle } from "./components/LanguageToggle";
 
 export default function RootLayout({

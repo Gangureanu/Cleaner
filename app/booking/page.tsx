@@ -48,7 +48,7 @@ export default function BookingPage() {
     return availableSlots.filter((slot) => slot.date === dateStr && slot.available);
   };
 
-  const calendarDays = [];
+  const calendarDays: Array<number | null> = [];
   const firstDay = getFirstDayOfMonth(selectedMonth);
   const daysInMonth = getDaysInMonth(selectedMonth);
 

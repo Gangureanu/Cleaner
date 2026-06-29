@@ -12,7 +12,6 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>('en');
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // Get language from localStorage or browser preference
@@ -25,17 +24,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         setLanguageState('ga');
       }
     }
-    setMounted(true);
   }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('language', lang);
   };
-
-  if (!mounted) {
-    return <>{children}</>;
-  }
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>
