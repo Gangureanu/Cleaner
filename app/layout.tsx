@@ -1,10 +1,41 @@
-﻿'use client';
-
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { LanguageProvider } from "../lib/LanguageContext";
 import { LanguageToggle } from "./components/LanguageToggle";
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://www.emeraldspotless.ie"),
+  title: {
+    default: "Emerald Spotless Cleaning | Clean Spaces. Brighter Places.",
+    template: "%s | Emerald Spotless Cleaning",
+  },
+  description:
+    "Professional residential and commercial cleaning across Kildare and Leinster. Deep cleaning, power washing, window cleaning, offices and schools. Fully insured, eco-friendly products. Call 085 286 4466 for a free quote.",
+  keywords: [
+    "cleaning services Kildare",
+    "commercial cleaning Leinster",
+    "residential cleaning",
+    "deep cleaning",
+    "power washing",
+    "window cleaning",
+    "office cleaning",
+    "school cleaning",
+  ],
+  openGraph: {
+    title: "Emerald Spotless Cleaning | Clean Spaces. Brighter Places.",
+    description:
+      "Professional cleaning services across Kildare and Leinster. Fully insured, eco-friendly, quality guaranteed. Get a free quote today.",
+    url: "https://www.emeraldspotless.ie",
+    siteName: "Emerald Spotless Cleaning",
+    locale: "en_IE",
+    type: "website",
+    images: [{ url: "/logo.png" }],
+  },
+  alternates: {
+    canonical: "https://www.emeraldspotless.ie",
+  },
+};
 
 export default function RootLayout({
   children,
