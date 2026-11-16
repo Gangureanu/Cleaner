@@ -974,6 +974,17 @@ body:has(.posterPage) {
     grid-template-columns: repeat(4, 1fr);
   }
 
+  .serviceChips {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .serviceChips li {
+    white-space: nowrap;
+    padding: 8px 12px;
+    font-size: 0.84rem;
+  }
+
   .grid {
     grid-template-columns: 1fr 1fr;
   }
