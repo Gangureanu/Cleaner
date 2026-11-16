@@ -35,6 +35,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://www.emeraldspotless.ie",
   },
+  verification: {
+    google: "rDzO1HaNjndy2KbsDgpkNA7MBTmDkMYGTPZGZtIlRME",
+  },
 };
 
 export default function RootLayout({
