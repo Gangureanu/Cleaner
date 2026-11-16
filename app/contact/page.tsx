@@ -70,6 +70,10 @@ export default function ContactPage() {
               <option>Move-In / Move-Out Cleaning</option>
               <option>Weekly / Bi-weekly Cleaning</option>
               <option>Commercial Cleaning</option>
+              <option>Power Washing</option>
+              <option>Windows Cleaning</option>
+              <option>Office Cleaning</option>
+              <option>School Cleaning</option>
             </select>
 
             <label htmlFor="message">Message</label>
