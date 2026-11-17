@@ -30,8 +30,8 @@ export default function ContactPage() {
 
         <article className="panelCard reveal">
           <h3>Address</h3>
-          <p>G. & R. Great Food Catering</p>
-          <p>Brockagh Farms</p>
+          <p>Emerald Spotless</p>
+          <p>Brockagh</p>
           <p>Brockagh, Robertstown</p>
           <p>Naas, Co Kildare</p>
           <p>W91 C7RF</p>
