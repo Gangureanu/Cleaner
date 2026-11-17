@@ -10,7 +10,7 @@ export const translations = {
     },
     footer: {
       companyName: 'Emerald Spotless Cleaning',
-      coverage: 'Kildare and Leinster service coverage.',
+      coverage: 'Serving Dublin, Co. Kildare and surrounding areas.',
       callUs: 'Call us:',
     },
     common: {
@@ -72,7 +72,7 @@ export const translations = {
     },
     footer: {
       companyName: 'Foluain Spotless a Ghlantóireachta',
-      coverage: 'Seirbhís a fhálaithe cheantar Chhill Dara agus Laighean.',
+      coverage: 'Ag freastal ar Bhaile Átha Cliath, Co. Chill Dara agus na ceantair máguaird.',
       callUs: 'Glaoch orainn:',
     },
     common: {

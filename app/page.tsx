@@ -7,7 +7,7 @@ export default function HomePage() {
         <p className="kicker">Clean Spaces. Brighter Places.</p>
         <h1>A Cleaner, Healthier Environment</h1>
         <p className="summary">
-          Professional cleaning services across Kildare and Leinster, with flexible
+          Professional cleaning services across Dublin, Co. Kildare and surrounding areas, with flexible
           one-off and recurring plans. Explore our pricing, service areas, and contact
           details to book your next clean.
         </p>
@@ -102,7 +102,7 @@ export default function HomePage() {
         <article className="panelCard reveal">
           <h3>Location</h3>
           <p>
-            Kildare-based service with coverage throughout Leinster for domestic,
+            Serving Dublin, Co. Kildare and surrounding areas for domestic,
             commercial, and private property cleaning.
           </p>
           <Link href="/location" className="ctaLink">

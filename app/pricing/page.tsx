@@ -89,7 +89,7 @@ export default function PricingPage() {
         <p className="kicker">Domestic and Commercial Cleaning</p>
         <h1>Cleaning Price Guide</h1>
         <p className="summary">
-          Market-rate estimates for Kildare and Leinster, covering standard cleans,
+          Market-rate estimates for Dublin, Co. Kildare and surrounding areas, covering standard cleans,
           deep cleans, move-out jobs, recurring visits, and specialist add-ons.
         </p>
       </section>

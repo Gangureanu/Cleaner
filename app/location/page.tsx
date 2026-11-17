@@ -3,9 +3,9 @@ export default function LocationPage() {
     <main className="site">
       <section className="hero reveal">
         <p className="kicker">Where We Work</p>
-        <h1>Kildare Based, Leinster Wide</h1>
+        <h1>Dublin, Co. Kildare and Surrounding Areas</h1>
         <p className="summary">
-          We operate from Kildare and serve homes and businesses across Leinster,
+          We serve homes and businesses across Dublin, Co. Kildare and surrounding areas,
           including regular routes for one-off and recurring cleaning jobs.
         </p>
       </section>
@@ -14,12 +14,9 @@ export default function LocationPage() {
         <article className="panelCard reveal">
           <h3>Core Coverage</h3>
           <ul className="cleanList">
-            <li>County Kildare</li>
             <li>Dublin</li>
-            <li>Wicklow</li>
-            <li>Meath</li>
-            <li>Louth</li>
-            <li>Westmeath</li>
+            <li>Co. Kildare</li>
+            <li>Surrounding areas</li>
           </ul>
         </article>
 
