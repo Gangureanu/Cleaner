@@ -10,7 +10,6 @@ const navigation = [
   { href: "/pricing", label: "Pricing" },
   { href: "/location", label: "Location" },
   { href: "/contact", label: "Contact" },
-  { href: "/booking", label: "Book Now" },
   { href: "/checkout", label: "Payment" },
 ];
 
@@ -43,7 +42,12 @@ export function Header() {
           </span>
         </Link>
         <div className="headerActions">
-          <Link href="/booking" className="headerBooking" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/booking"
+            className="headerBooking"
+            aria-current={pathname === "/booking" ? "page" : undefined}
+            onClick={() => setMenuOpen(false)}
+          >
             Book Now
           </Link>
           <button
