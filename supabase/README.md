@@ -24,6 +24,12 @@
 7. Verify a sender domain in Resend, then configure `RESEND_API_KEY`,
    `BOOKING_FROM_EMAIL`, and `ADMIN_BOOKING_EMAIL` in `.env.local` and Vercel.
    `BOOKING_FROM_EMAIL` must use the verified sender domain.
+   Set `ADMIN_BOOKING_EMAIL=info@emeraldspotless.ie` for booking alerts and
+   `NEXT_PUBLIC_SITE_URL=https://emeraldspotless.ie` in Production.
+8. After saving all Production environment variables, redeploy in Vercel.
+   Environment changes do not affect an existing deployment. Verify the Resend
+   domain is ready, then test a booking request and its confirmation/cancellation
+   emails before accepting live bookings.
 
 The public key is designed for browser use. Row-level security in `schema.sql` limits
 public access to available slots and booking creation. Do not put a Supabase service
