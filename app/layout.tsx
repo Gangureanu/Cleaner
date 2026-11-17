@@ -1,8 +1,7 @@
 ﻿import type { Metadata } from "next";
-import Link from "next/link";
 import "./globals.css";
 import { LanguageProvider } from "../lib/LanguageContext";
-import { LanguageToggle } from "./components/LanguageToggle";
+import { Header } from "./components/Header";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.emeraldspotless.ie"),
@@ -49,30 +48,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <LanguageProvider>
-          <header className="siteHeader">
-            <div className="headerInner">
-              <div className="headerTopRow">
-                <Link href="/" className="brandLink" aria-label="Home">
-                  <img src="/logo-icon.jpeg" alt="Emerald Spotless icon" className="brandIcon" />
-                </Link>
-                <nav className="mainNav" aria-label="Main navigation">
-                  <Link href="/">Home</Link>
-                  <Link href="/pricing">Pricing</Link>
-                  <Link href="/location">Location</Link>
-                  <Link href="/contact">Contact</Link>
-                  <Link href="/booking">Book Now</Link>
-                  <Link href="/checkout">Payment</Link>
-                </nav>
-                <div className="headerControls">
-                  <div className="headerPhones">
-                    <a href="tel:+35345870407">+353 45 870 407</a>
-                    <a href="tel:+353852864466">+353 85 286 4466</a>
-                  </div>
-                  <LanguageToggle />
-                </div>
-              </div>
-            </div>
-          </header>
+          <Header />
 
         {children}
 
