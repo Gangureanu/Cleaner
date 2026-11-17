@@ -63,6 +63,9 @@ export default function RootLayout({
               <p>
                 Email: <a href="mailto:contact@emeraldspotless.ie">contact@emeraldspotless.ie</a>
               </p>
+              <p>
+                Email: <a href="mailto:info@emeraldspotless.ie">info@emeraldspotless.ie</a>
+              </p>
             </div>
           </div>
         </footer>

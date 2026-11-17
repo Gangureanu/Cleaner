@@ -1,36 +1,6 @@
-import { Resend } from 'resend';
 import type { Booking } from './supabase';
 import { formatSlotTime } from './availability';
-
-function getEmailSettings() {
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.BOOKING_FROM_EMAIL;
-
-  if (!apiKey || !from) {
-    throw new Error('Booking email is not configured.');
-  }
-
-  return {
-    client: new Resend(apiKey),
-    from,
-    replyTo: process.env.ADMIN_BOOKING_EMAIL || 'contact@emeraldspotless.ie',
-  };
-}
-
-async function sendEmail(to: string, subject: string, text: string) {
-  const { client, from, replyTo } = getEmailSettings();
-  const { error } = await client.emails.send({
-    from,
-    to,
-    subject,
-    text,
-    replyTo,
-  });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-}
+import { sendEmail } from './email';
 
 function formatBooking(booking: Booking) {
   return [
@@ -64,7 +34,7 @@ export async function sendNewBookingEmails(booking: Booking) {
     sendEmail(
       booking.email,
       'We received your Emerald Spotless booking request',
-      `Hi ${booking.customer_name},\n\nWe received your booking request. It is pending confirmation, and our team will email you once it has been reviewed.\n\n${bookingDetails}\n\nIf you have questions, reply to this email or contact contact@emeraldspotless.ie.`
+      `Hi ${booking.customer_name},\n\nWe received your booking request. It is pending confirmation, and our team will email you once it has been reviewed.\n\n${bookingDetails}\n\nIf you have questions, reply to this email or contact contact@emeraldspotless.ie or info@emeraldspotless.ie.`
     ),
   ]);
 }
@@ -86,7 +56,7 @@ export async function sendBookingStatusEmail(booking: Booking) {
   await sendEmail(
     booking.email,
     subject,
-    `Hi ${booking.customer_name},\n\n${outcome}\n\n${formatBooking(booking)}\n\nIf you have questions, reply to this email or contact contact@emeraldspotless.ie.`
+    `Hi ${booking.customer_name},\n\n${outcome}\n\n${formatBooking(booking)}\n\nIf you have questions, reply to this email or contact contact@emeraldspotless.ie or info@emeraldspotless.ie.`
   );
 }
 
@@ -94,6 +64,6 @@ export async function sendBookingRescheduledEmail(booking: Booking) {
   await sendEmail(
     booking.email,
     'Your Emerald Spotless booking has been rescheduled',
-    `Hi ${booking.customer_name},\n\nYour booking has been rescheduled to:\n\n${formatBooking(booking)}\n\nIf you have questions, reply to this email or contact contact@emeraldspotless.ie.`
+    `Hi ${booking.customer_name},\n\nYour booking has been rescheduled to:\n\n${formatBooking(booking)}\n\nIf you have questions, reply to this email or contact contact@emeraldspotless.ie or info@emeraldspotless.ie.`
   );
 }

@@ -47,6 +47,12 @@ New requests email the admin and the customer. When an admin confirms or cancels
 booking, the customer receives a status update. Email credentials are used only by
 server-side routes and must never be exposed as `NEXT_PUBLIC_` variables.
 
+The contact form submits to `/api/contact` and uses the same `RESEND_API_KEY`
+and verified `BOOKING_FROM_EMAIL` sender. Enquiries go to
+`contact@emeraldspotless.ie`, with the visitor's email as Reply-To. No email app
+is required on the visitor's device. The form only confirms success after Resend
+accepts the email; failures are shown on the form and logged on the server.
+
 ## Updating an existing database for slot end times
 
 Before deploying the end-time feature, rerun [`schema.sql`](./schema.sql) in the
