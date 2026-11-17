@@ -1487,7 +1487,12 @@ body:has(.posterPage) {
 
 @media (min-width: 760px) {
   .adminSlotForm {
-    grid-template-columns: 1fr 1fr auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .adminSlotForm .submitBtn {
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 }
 

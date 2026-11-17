@@ -5,6 +5,7 @@ import type { FormEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import type { AvailabilitySlot, Booking, PaymentStatus } from '../../lib/supabase';
 import { getSupabaseClient } from '../../lib/supabase';
+import { getSlotDates } from '../../lib/availability';
 
 interface AdminApiResponse {
   booking?: Booking;
@@ -43,6 +44,7 @@ export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [slotDate, setSlotDate] = useState('');
+  const [slotEndDate, setSlotEndDate] = useState('');
   const [slotTime, setSlotTime] = useState('');
   const [isSavingSlot, setIsSavingSlot] = useState(false);
   const [rescheduleSelections, setRescheduleSelections] = useState<
@@ -258,20 +260,30 @@ export default function AdminPage() {
     setNotice(null);
     setIsSavingSlot(true);
     try {
+      const newSlots = getSlotDates(slotDate, slotEndDate || slotDate).map((date) => ({
+        slot_date: date,
+        slot_time: slotTime,
+      }));
       const { data, error } = await getSupabaseClient()
         .from('availability_slots')
-        .insert({ slot_date: slotDate, slot_time: slotTime })
-        .select('*')
-        .single();
-      if (error) throw error;
+        .insert(newSlots)
+        .select('*');
+      if (error) {
+        throw new Error(
+          error.code === '23505'
+            ? 'A slot already exists at this time on one or more selected dates. No slots were added. Choose a different range or time.'
+            : error.message
+        );
+      }
       setSlots((current) =>
-        [...current, data].sort((a, b) =>
+        [...current, ...data].sort((a, b) =>
           `${a.slot_date}T${a.slot_time}`.localeCompare(`${b.slot_date}T${b.slot_time}`)
         )
       );
       setSlotDate('');
+      setSlotEndDate('');
       setSlotTime('');
-      setNotice('Availability added.');
+      setNotice(`${data.length} availability slot${data.length === 1 ? '' : 's'} added.`);
     } catch (error) {
       console.error('Could not add availability:', error);
       setDashboardError(
@@ -390,16 +402,33 @@ export default function AdminPage() {
 
           <section className="panelCard adminSection">
             <h2>Manage availability</h2>
+            <p id="slotRangeHelp">
+              Add one slot, or choose an end date to repeat the same start time every
+              day through that date, including weekends.
+            </p>
             <form className="adminSlotForm" onSubmit={handleAddSlot}>
               <div className="formField">
-                <label htmlFor="slotDate">Date</label>
+                <label htmlFor="slotDate">Start date</label>
                 <input
                   id="slotDate"
                   type="date"
                   min={todayDateKey()}
                   required
+                  disabled={isSavingSlot}
                   value={slotDate}
                   onChange={(event) => setSlotDate(event.target.value)}
+                />
+              </div>
+              <div className="formField">
+                <label htmlFor="slotEndDate">End date (optional)</label>
+                <input
+                  id="slotEndDate"
+                  type="date"
+                  min={slotDate || todayDateKey()}
+                  aria-describedby="slotRangeHelp"
+                  disabled={isSavingSlot}
+                  value={slotEndDate}
+                  onChange={(event) => setSlotEndDate(event.target.value)}
                 />
               </div>
               <div className="formField">
@@ -408,6 +437,7 @@ export default function AdminPage() {
                   id="slotTime"
                   type="time"
                   required
+                  disabled={isSavingSlot}
                   value={slotTime}
                   onChange={(event) => setSlotTime(event.target.value)}
                 />

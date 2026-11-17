@@ -18,6 +18,10 @@
 
 5. Add the same two environment variables to the Vercel project and redeploy.
 6. Sign in at `/admin`, then add future date/time slots before accepting bookings.
+   To add several slots at once, choose a start date, an optional end date, and a
+   start time. The same time is added on every date in the inclusive range,
+   including weekends. Leave the end date blank for a single slot. The batch is
+   saved together: if any selected date/time already exists, no slots are added.
    The dashboard can confirm or cancel requests, mark payment status, and
    reschedule pending or confirmed bookings. Cancellation and rescheduling send
    the customer an email.
