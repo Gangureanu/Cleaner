@@ -1,12 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getSupabaseClient, type AvailabilitySlot } from '../../lib/supabase';
 
-interface AvailableSlot {
-  date: string;
-  time: string;
-  available: boolean;
+function toDateKey(year: number, month: number, day: number) {
+  return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+
+function todayDateKey() {
+  const today = new Date();
+  return toDateKey(today.getFullYear(), today.getMonth(), today.getDate());
+}
+
+function formatDate(dateKey: string) {
+  const [year, month, day] = dateKey.split('-').map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString('en-IE', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 }
 
 export default function BookingPage() {
@@ -14,20 +27,42 @@ export default function BookingPage() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [serviceType, setServiceType] = useState('Standard Cleaning');
+  const [availableSlots, setAvailableSlots] = useState<AvailabilitySlot[]>([]);
+  const [isLoadingAvailability, setIsLoadingAvailability] = useState(true);
+  const [availabilityError, setAvailabilityError] = useState<string | null>(null);
 
-  // Mock availability data - in production, this would come from a database
-  const bookedDates = ['2026-06-25', '2026-06-26', '2026-07-03', '2026-07-10'];
-  const availableSlots: AvailableSlot[] = [
-    { date: '2026-06-24', time: '09:00', available: true },
-    { date: '2026-06-24', time: '13:00', available: true },
-    { date: '2026-06-24', time: '16:00', available: true },
-    { date: '2026-06-27', time: '08:00', available: true },
-    { date: '2026-06-27', time: '12:00', available: true },
-    { date: '2026-06-28', time: '10:00', available: true },
-    { date: '2026-06-28', time: '14:00', available: true },
-    { date: '2026-07-01', time: '09:00', available: true },
-    { date: '2026-07-02', time: '13:00', available: true },
-  ];
+  useEffect(() => {
+    let active = true;
+
+    const loadAvailability = async () => {
+      try {
+        const { data, error } = await getSupabaseClient()
+          .from('availability_slots')
+          .select('*')
+          .eq('is_available', true)
+          .gte('slot_date', todayDateKey())
+          .order('slot_date')
+          .order('slot_time');
+
+        if (error) throw error;
+        if (active) setAvailableSlots(data);
+      } catch (error) {
+        console.error('Could not load booking availability:', error);
+        if (active) {
+          setAvailabilityError(
+            'Online availability is temporarily unavailable. Please call us to book.'
+          );
+        }
+      } finally {
+        if (active) setIsLoadingAvailability(false);
+      }
+    };
+
+    void loadAvailability();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const getDaysInMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -38,14 +73,16 @@ export default function BookingPage() {
   };
 
   const isDateAvailable = (day: number) => {
-    const dateStr = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), day)
-      .toISOString()
-      .split('T')[0];
-    return !bookedDates.includes(dateStr) && new Date(dateStr) > new Date();
+    const dateKey = toDateKey(
+      selectedMonth.getFullYear(),
+      selectedMonth.getMonth(),
+      day
+    );
+    return availableSlots.some((slot) => slot.slot_date === dateKey);
   };
 
   const getTimeSlotsForDate = (dateStr: string) => {
-    return availableSlots.filter((slot) => slot.date === dateStr && slot.available);
+    return availableSlots.filter((slot) => slot.slot_date === dateStr);
   };
 
   const calendarDays: Array<number | null> = [];
@@ -75,20 +112,13 @@ export default function BookingPage() {
   };
 
   const handleDateSelect = (day: number) => {
-    const dateStr = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), day)
-      .toISOString()
-      .split('T')[0];
+    const dateStr = toDateKey(
+      selectedMonth.getFullYear(),
+      selectedMonth.getMonth(),
+      day
+    );
     setSelectedDate(dateStr);
     setSelectedTime(null);
-  };
-
-  const handleBooking = () => {
-    if (selectedDate && selectedTime) {
-      alert(
-        `Booking request:\nDate: ${selectedDate}\nTime: ${selectedTime}\nService: ${serviceType}\n\nProceeding to checkout...`
-      );
-      // In production, redirect to checkout with pre-filled data
-    }
   };
 
   const monthName = selectedMonth.toLocaleDateString('en-US', {
@@ -97,10 +127,13 @@ export default function BookingPage() {
   });
 
   const selectedDateSlots = selectedDate ? getTimeSlotsForDate(selectedDate) : [];
+  const selectedSlot = selectedDateSlots.find(
+    (slot) => slot.slot_time.slice(0, 5) === selectedTime
+  );
 
   return (
     <main className="site">
-      <section className="hero reveal">
+      <section className="hero bookingHero reveal">
         <p className="kicker">Schedule Your Cleaning</p>
         <h1>Book Your Appointment</h1>
         <p className="summary">
@@ -118,6 +151,11 @@ export default function BookingPage() {
             <option>Move-In / Move-Out Cleaning</option>
             <option>Weekly Maintenance</option>
             <option>Commercial Cleaning</option>
+            <option>Carpet Cleaning</option>
+            <option>Power Washing</option>
+            <option>Windows Cleaning</option>
+            <option>Offices</option>
+            <option>Schools</option>
           </select>
         </article>
 
@@ -125,9 +163,27 @@ export default function BookingPage() {
           <article className="panelCard calendarCard">
             <h3>Availability Calendar</h3>
             <div className="calendarControls">
-              <button onClick={handlePrevMonth}>← Previous</button>
+              <button
+                type="button"
+                aria-label="Previous month"
+                onClick={handlePrevMonth}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                <span>Previous</span>
+              </button>
               <span className="monthName">{monthName}</span>
-              <button onClick={handleNextMonth}>Next →</button>
+              <button
+                type="button"
+                aria-label="Next month"
+                onClick={handleNextMonth}
+              >
+                <span>Next</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
             </div>
 
             <table className="calendarTable">
@@ -153,16 +209,14 @@ export default function BookingPage() {
                             {day !== null ? (
                               <button
                                 className={`calendarDay ${
-                                  !isDateAvailable(day) ? 'booked' : ''
+                                  !isDateAvailable(day) ? 'unavailable' : ''
                                 } ${
                                   selectedDate ===
-                                  new Date(
+                                  toDateKey(
                                     selectedMonth.getFullYear(),
                                     selectedMonth.getMonth(),
                                     day
                                   )
-                                    .toISOString()
-                                    .split('T')[0]
                                     ? 'selected'
                                     : ''
                                 }`}
@@ -180,9 +234,23 @@ export default function BookingPage() {
               </tbody>
             </table>
 
+            {isLoadingAvailability ? (
+              <p className="availabilityMessage" role="status">
+                Loading available appointments…
+              </p>
+            ) : availabilityError ? (
+              <p className="availabilityMessage errorMessage" role="alert">
+                {availabilityError}
+              </p>
+            ) : availableSlots.length === 0 ? (
+              <p className="availabilityMessage" role="status">
+                No appointments are currently available. Please call us to arrange a booking.
+              </p>
+            ) : null}
+
             <div className="calendarLegend">
               <span className="legendItem available">Available</span>
-              <span className="legendItem booked">Booked</span>
+              <span className="legendItem unavailable">Unavailable</span>
             </div>
           </article>
 
@@ -191,17 +259,17 @@ export default function BookingPage() {
             {selectedDate ? (
               <div className="timeSelection">
                 <p className="selectedDateDisplay">
-                  <strong>Date:</strong> {new Date(selectedDate).toLocaleDateString()}
+                  <strong>Date:</strong> {formatDate(selectedDate)}
                 </p>
                 {selectedDateSlots.length > 0 ? (
                   <div className="timeSlots">
                     {selectedDateSlots.map((slot) => (
                       <button
-                        key={`${slot.date}-${slot.time}`}
-                        className={`timeSlot ${selectedTime === slot.time ? 'selected' : ''}`}
-                        onClick={() => setSelectedTime(slot.time)}
+                        key={slot.id}
+                        className={`timeSlot ${selectedTime === slot.slot_time.slice(0, 5) ? 'selected' : ''}`}
+                        onClick={() => setSelectedTime(slot.slot_time.slice(0, 5))}
                       >
-                        {slot.time}
+                        {slot.slot_time.slice(0, 5)}
                       </button>
                     ))}
                   </div>
@@ -217,7 +285,7 @@ export default function BookingPage() {
           </article>
         </div>
 
-        {selectedDate && selectedTime && (
+        {selectedDate && selectedTime && selectedSlot && (
           <article className="panelCard bookingSummary">
             <h3>Booking Summary</h3>
             <div className="summaryRow">
@@ -226,14 +294,25 @@ export default function BookingPage() {
             </div>
             <div className="summaryRow">
               <span>Date:</span>
-              <strong>{new Date(selectedDate).toLocaleDateString()}</strong>
+              <strong>{formatDate(selectedDate)}</strong>
             </div>
             <div className="summaryRow">
               <span>Time:</span>
               <strong>{selectedTime}</strong>
             </div>
-            <Link href="/checkout" className="submitBtn" onClick={handleBooking}>
-              Proceed to Checkout
+            <Link
+              href={{
+                pathname: '/checkout',
+                query: {
+                  slotId: selectedSlot.id,
+                  serviceType,
+                  date: selectedDate,
+                  time: selectedTime,
+                },
+              }}
+              className="submitBtn"
+            >
+              Continue to Booking Details
             </Link>
           </article>
         )}
@@ -245,8 +324,8 @@ export default function BookingPage() {
           <li>Select your preferred service type</li>
           <li>Choose an available date from the calendar</li>
           <li>Pick your preferred time slot</li>
-          <li>Review your booking and proceed to secure payment</li>
-          <li>Receive confirmation via email with all details</li>
+          <li>Enter your contact details and send the booking request</li>
+          <li>Receive an email after our team reviews your request</li>
         </ol>
       </section>
     </main>

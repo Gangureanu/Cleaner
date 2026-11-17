@@ -518,6 +518,7 @@ h3 {
   width: 100%;
   border: 1px solid #bcdcc8;
   border-radius: 10px;
+  min-height: 48px;
   padding: 10px 12px;
   font: inherit;
   color: #1d3c2c;
@@ -540,6 +541,10 @@ h3 {
 }
 
 .calendarControls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border: none;
   border-radius: 999px;
   padding: 7px 12px;
@@ -549,6 +554,12 @@ h3 {
   color: #ffffff;
   background: linear-gradient(145deg, var(--emerald-900), var(--emerald-700));
   cursor: pointer;
+}
+
+.calendarControls button svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
 }
 
 .monthName {
@@ -585,7 +596,7 @@ h3 {
   background: linear-gradient(145deg, var(--emerald-900), var(--emerald-700));
 }
 
-.calendarDay.booked,
+.calendarDay.unavailable,
 .calendarDay:disabled {
   cursor: not-allowed;
   background: #edf4f0;
@@ -598,6 +609,7 @@ h3 {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .legendItem {
@@ -621,8 +633,19 @@ h3 {
   background: var(--emerald-700);
 }
 
-.legendItem.booked::before {
+.legendItem.unavailable::before {
   background: #b7cfc0;
+}
+
+.availabilityMessage {
+  margin: 10px 0 0;
+  color: var(--ink-700);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.availabilityMessage.errorMessage {
+  color: #9c2c2c;
 }
 
 .timeSelection {
@@ -642,6 +665,7 @@ h3 {
 }
 
 .timeSlot {
+  min-height: 44px;
   border: 1px solid #c9e4d4;
   border-radius: 10px;
   padding: 8px 10px;
@@ -667,6 +691,14 @@ h3 {
 .bookingSummary {
   border-radius: 18px;
   background: linear-gradient(160deg, #f5fff8 0%, #ebf8ef 100%);
+}
+
+.bookingSummary .submitBtn {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .summaryRow {
@@ -1073,6 +1105,60 @@ body:has(.posterPage) {
   }
 }
 
+@media (max-width: 599px) {
+  .bookingHero {
+    padding: 22px 14px;
+  }
+
+  .bookingWrap,
+  .calendarGrid {
+    gap: 12px;
+  }
+
+  .calendarCard,
+  .timesCard {
+    padding: 14px 12px;
+  }
+
+  .calendarControls {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  .calendarControls button {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+
+  .calendarControls button span {
+    display: none;
+  }
+
+  .monthName {
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .calendarTable th,
+  .calendarTable td {
+    padding: 6px 0;
+  }
+
+  .calendarDay {
+    width: min(36px, 100%);
+    height: 36px;
+    border-radius: 50%;
+  }
+
+  .infoSection {
+    padding: 16px;
+  }
+}
+
 @media (min-width: 900px) {
   .site {
     padding: 40px 28px 70px;
@@ -1108,6 +1194,300 @@ body:has(.posterPage) {
 
   .calendarGrid {
     grid-template-columns: 1.3fr 1fr;
+  }
+}
+
+.adminSite h2 {
+  margin: 0 0 14px;
+  color: var(--emerald-900);
+}
+
+.adminLogin,
+.adminToolbar,
+.adminSection,
+.adminAlert,
+.adminNotice,
+.adminStatus {
+  width: min(1020px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.adminLogin {
+  max-width: 560px;
+}
+
+.adminLogin h2 {
+  font-size: 1.25rem;
+}
+
+.adminToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.adminToolbar p {
+  margin: 0;
+  color: var(--ink-700);
+}
+
+.adminSection {
+  margin-top: 20px;
+}
+
+.adminSection > h2 {
+  font-size: 1.35rem;
+}
+
+.adminSlotForm {
+  display: grid;
+  gap: 12px;
+  align-items: end;
+}
+
+.adminSlotForm .submitBtn,
+.adminBookingControls button,
+.adminReschedule button,
+.adminSecondaryButton {
+  min-height: 42px;
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 14px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.adminSlotForm .submitBtn,
+.adminActionButton {
+  color: #fff;
+  background: linear-gradient(145deg, var(--emerald-900), var(--emerald-700));
+}
+
+.adminSecondaryButton {
+  color: var(--emerald-900);
+  border: 1px solid #bcdcc8;
+  background: #fff;
+}
+
+.adminSlotForm .submitBtn:disabled,
+.adminBookingControls button:disabled,
+.adminReschedule button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.adminSlotList,
+.adminBookingList {
+  display: grid;
+  gap: 12px;
+}
+
+.adminSlotList {
+  margin-top: 18px;
+}
+
+.adminSlotItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--ink-700);
+}
+
+.adminSlotItem > span:first-child {
+  flex: 1 1 220px;
+  font-weight: 700;
+}
+
+.slotAvailable,
+.slotUnavailable {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.slotAvailable {
+  color: #187044;
+}
+
+.slotUnavailable {
+  color: #68776e;
+}
+
+.adminTextButton {
+  border: 0;
+  padding: 6px 2px;
+  color: #9c2c2c;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.adminBooking {
+  display: grid;
+  gap: 14px;
+}
+
+.adminBookingHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.adminBookingHeader h3 {
+  margin: 0;
+}
+
+.adminBookingHeader p {
+  margin: 5px 0 0;
+}
+
+.bookingStatus {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #edf4f0;
+  color: #315d43;
+  font-size: 0.83rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.bookingStatus.confirmed,
+.bookingStatus.completed {
+  background: #e4f5e9;
+  color: #17653a;
+}
+
+.bookingStatus.cancelled {
+  background: #fae9e9;
+  color: #9c2c2c;
+}
+
+.adminBookingDetails {
+  display: grid;
+  gap: 4px;
+}
+
+.adminBookingDetails p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.adminBookingDetails a {
+  color: var(--emerald-900);
+}
+
+.adminBookingControls {
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.adminBookingControls label,
+.adminReschedule {
+  display: grid;
+  gap: 6px;
+  color: var(--ink-700);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.adminBookingControls select,
+.adminReschedule select {
+  min-height: 42px;
+  max-width: 100%;
+  border: 1px solid #bcdcc8;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font: inherit;
+  color: #1d3c2c;
+  background: #fcfffd;
+}
+
+.adminBookingControls .adminCancelButton {
+  color: #9c2c2c;
+  background: #fae9e9;
+}
+
+.adminReschedule {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.adminReschedule label {
+  grid-column: 1 / -1;
+}
+
+.adminAlert,
+.adminNotice,
+.adminStatus {
+  margin-top: 0;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  line-height: 1.45;
+}
+
+.adminAlert {
+  border: 1px solid #e8bebe;
+  color: #8f2828;
+  background: #fff4f4;
+}
+
+.adminNotice {
+  border: 1px solid #bcdcc8;
+  color: #17653a;
+  background: #f0fff4;
+}
+
+.adminStatus {
+  color: var(--ink-700);
+  text-align: center;
+}
+
+.bookingError,
+.bookingSuccess {
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 12px;
+  line-height: 1.45;
+}
+
+.bookingError {
+  color: #8f2828;
+  border: 1px solid #e8bebe;
+  background: #fff4f4;
+}
+
+.bookingSuccess {
+  color: #17653a;
+  border: 1px solid #bcdcc8;
+  background: #f0fff4;
+}
+
+.bookingSuccess h4 {
+  margin: 0 0 6px;
+}
+
+.bookingSuccess p {
+  margin: 5px 0;
+}
+
+@media (min-width: 760px) {
+  .adminSlotForm {
+    grid-template-columns: 1fr 1fr auto;
   }
 }
 
