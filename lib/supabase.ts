@@ -9,6 +9,7 @@ export type AvailabilitySlot = {
   id: string;
   slot_date: string;
   slot_time: string;
+  slot_end_time: string | null;
   is_available: boolean;
   created_at: string;
 }
@@ -24,6 +25,7 @@ export type Booking = {
   hours: number;
   preferred_date: string;
   preferred_time: string;
+  preferred_end_time: string | null;
   slot_id: string;
   notes: string;
   status: BookingStatus;
@@ -45,6 +47,7 @@ export interface Database {
           id?: string;
           slot_date: string;
           slot_time: string;
+          slot_end_time?: string | null;
           is_available?: boolean;
           created_at?: string;
         };
@@ -52,6 +55,7 @@ export interface Database {
           id?: string;
           slot_date?: string;
           slot_time?: string;
+          slot_end_time?: string | null;
           is_available?: boolean;
           created_at?: string;
         };
@@ -70,6 +74,7 @@ export interface Database {
           hours: number;
           preferred_date: string;
           preferred_time: string;
+          preferred_end_time?: string | null;
           slot_id: string;
           notes?: string;
           status?: BookingStatus;
@@ -86,6 +91,7 @@ export interface Database {
           hours?: number;
           preferred_date?: string;
           preferred_time?: string;
+          preferred_end_time?: string | null;
           slot_id?: string;
           notes?: string;
           status?: BookingStatus;

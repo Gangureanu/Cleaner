@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getSupabaseClient } from '../../lib/supabase';
+import { getSlotDuration } from '../../lib/availability';
 
 interface BookingResponse {
   bookingId?: string;
@@ -23,6 +25,7 @@ export default function CheckoutPage() {
     notes: '',
   });
   const [slotId, setSlotId] = useState<string | null>(null);
+  const [slotEndTime, setSlotEndTime] = useState<string | null>(null);
   const [bookingDetailsReady, setBookingDetailsReady] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -32,15 +35,48 @@ export default function CheckoutPage() {
   } | null>(null);
 
   useEffect(() => {
+    let active = true;
     const query = new URLSearchParams(window.location.search);
-    setSlotId(query.get('slotId'));
-    setFormData((previous) => ({
-      ...previous,
-      serviceType: query.get('serviceType') || previous.serviceType,
-      date: query.get('date') || '',
-      time: query.get('time') || '',
-    }));
-    setBookingDetailsReady(true);
+    const selectedSlotId = query.get('slotId');
+    setSlotId(selectedSlotId);
+    if (!selectedSlotId) {
+      setBookingDetailsReady(true);
+      return;
+    }
+
+    const loadSlot = async () => {
+      try {
+        const { data: slot, error } = await getSupabaseClient()
+          .from('availability_slots')
+          .select('*')
+          .eq('id', selectedSlotId)
+          .eq('is_available', true)
+          .single();
+        if (error) throw error;
+        const duration = slot.slot_end_time
+          ? getSlotDuration(slot.slot_time, slot.slot_end_time)
+          : null;
+        if (!active) return;
+        setSlotEndTime(slot.slot_end_time);
+        setFormData((previous) => ({
+          ...previous,
+          serviceType: query.get('serviceType') || previous.serviceType,
+          date: slot.slot_date,
+          time: slot.slot_time.slice(0, 5),
+          hours: duration === null ? previous.hours : String(duration),
+        }));
+        setBookingDetailsReady(true);
+      } catch (error) {
+        console.error('Could not load the selected appointment:', error);
+        if (active) {
+          setSubmitError('Could not load this appointment. Please return to the booking calendar and choose an available slot.');
+        }
+      }
+    };
+    void loadSlot();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const hourlyRate = 27.5; // EUR 25-30 average
@@ -61,7 +97,7 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError(null);
-    if (!slotId) {
+    if (!slotId || !bookingDetailsReady) {
       setSubmitError('Please choose an available appointment before submitting.');
       return;
     }
@@ -221,25 +257,35 @@ export default function CheckoutPage() {
                   onChange={handleChange}
                 />
               </div>
+              {slotEndTime && (
+                <div className="formField">
+                  <label htmlFor="endTime">End Time</label>
+                  <input id="endTime" type="time" readOnly value={slotEndTime.slice(0, 5)} />
+                </div>
+              )}
             </div>
 
             <div className="formRow">
               <div className="formField">
-                <label htmlFor="hours">Hours Required *</label>
-                <select
-                  id="hours"
-                  name="hours"
-                  value={formData.hours}
-                  onChange={handleChange}
-                >
-                  <option value="1">1 hour</option>
-                  <option value="2">2 hours</option>
-                  <option value="3">3 hours</option>
-                  <option value="4">4 hours</option>
-                  <option value="5">5 hours</option>
-                  <option value="6">6 hours</option>
-                  <option value="8">8 hours (Full day)</option>
-                </select>
+                <label htmlFor="hours">{slotEndTime ? 'Booking duration (hours)' : 'Hours Required *'}</label>
+                {slotEndTime ? (
+                  <input id="hours" value={formData.hours} readOnly />
+                ) : (
+                  <select
+                    id="hours"
+                    name="hours"
+                    value={formData.hours}
+                    onChange={handleChange}
+                  >
+                    <option value="1">1 hour</option>
+                    <option value="2">2 hours</option>
+                    <option value="3">3 hours</option>
+                    <option value="4">4 hours</option>
+                    <option value="5">5 hours</option>
+                    <option value="6">6 hours</option>
+                    <option value="8">8 hours (Full day)</option>
+                  </select>
+                )}
               </div>
               <div className="formField">
                 <label htmlFor="notes">Special Requests</label>

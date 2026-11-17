@@ -41,7 +41,7 @@ function isBookingRequest(value: unknown): value is BookingRequest {
     value.serviceType.trim().length >= 2 &&
     value.serviceType.length <= 100 &&
     typeof value.hours === 'number' &&
-    Number.isInteger(value.hours) &&
+    Number.isFinite(value.hours) &&
     value.hours >= 1 &&
     value.hours <= 8 &&
     typeof value.notes === 'string' &&

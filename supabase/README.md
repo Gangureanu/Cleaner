@@ -19,9 +19,13 @@
 5. Add the same two environment variables to the Vercel project and redeploy.
 6. Sign in at `/admin`, then add future date/time slots before accepting bookings.
    To add several slots at once, choose a start date, an optional end date, and a
-   start time. The same time is added on every date in the inclusive range,
+   start and end time. The same time range is added on every date in the inclusive range,
    including weekends. Leave the end date blank for a single slot. The batch is
    saved together: if any selected date/time already exists, no slots are added.
+   New slots must last 1 to 8 hours on the same day; partial hours are supported.
+   Customers book the entire range, with duration and estimated price calculated
+   automatically. Rescheduling to a slot with an end time also updates the
+   booking's duration. Existing slots without end times keep the hours selector.
    The dashboard can confirm or cancel requests, mark payment status, and
    reschedule pending or confirmed bookings. Cancellation and rescheduling send
    the customer an email.
@@ -42,3 +46,12 @@ role key in client code or a `NEXT_PUBLIC_` variable.
 New requests email the admin and the customer. When an admin confirms or cancels a
 booking, the customer receives a status update. Email credentials are used only by
 server-side routes and must never be exposed as `NEXT_PUBLIC_` variables.
+
+## Updating an existing database for slot end times
+
+Before deploying the end-time feature, rerun [`schema.sql`](./schema.sql) in the
+Supabase SQL Editor. It adds nullable end times to slots and bookings, allows
+fractional booking hours, and updates booking/rescheduling functions to calculate
+the full duration from the stored slot. Existing slots and bookings are preserved;
+no end times are guessed for older records. The database, not submitted customer
+hours, determines duration for slots with an end time.

@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import type { Booking } from './supabase';
+import { formatSlotTime } from './availability';
 
 function getEmailSettings() {
   const apiKey = process.env.RESEND_API_KEY;
@@ -35,7 +36,7 @@ function formatBooking(booking: Booking) {
   return [
     `Service: ${booking.service_type}`,
     `Date: ${booking.preferred_date}`,
-    `Time: ${booking.preferred_time.slice(0, 5)}`,
+    `Time: ${formatSlotTime(booking.preferred_time, booking.preferred_end_time)}`,
     `Duration: ${booking.hours} hour${booking.hours === 1 ? '' : 's'}`,
     `Name: ${booking.customer_name}`,
     `Email: ${booking.email}`,

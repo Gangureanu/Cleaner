@@ -5,7 +5,7 @@ import type { FormEvent } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import type { AvailabilitySlot, Booking, PaymentStatus } from '../../lib/supabase';
 import { getSupabaseClient } from '../../lib/supabase';
-import { getSlotDates } from '../../lib/availability';
+import { formatSlotTime, getSlotDates, getSlotDuration } from '../../lib/availability';
 
 interface AdminApiResponse {
   booking?: Booking;
@@ -46,6 +46,7 @@ export default function AdminPage() {
   const [slotDate, setSlotDate] = useState('');
   const [slotEndDate, setSlotEndDate] = useState('');
   const [slotTime, setSlotTime] = useState('');
+  const [slotEndTime, setSlotEndTime] = useState('');
   const [isSavingSlot, setIsSavingSlot] = useState(false);
   const [rescheduleSelections, setRescheduleSelections] = useState<
     Record<string, string>
@@ -260,9 +261,11 @@ export default function AdminPage() {
     setNotice(null);
     setIsSavingSlot(true);
     try {
+      getSlotDuration(slotTime, slotEndTime);
       const newSlots = getSlotDates(slotDate, slotEndDate || slotDate).map((date) => ({
         slot_date: date,
         slot_time: slotTime,
+        slot_end_time: slotEndTime,
       }));
       const { data, error } = await getSupabaseClient()
         .from('availability_slots')
@@ -283,6 +286,7 @@ export default function AdminPage() {
       setSlotDate('');
       setSlotEndDate('');
       setSlotTime('');
+      setSlotEndTime('');
       setNotice(`${data.length} availability slot${data.length === 1 ? '' : 's'} added.`);
     } catch (error) {
       console.error('Could not add availability:', error);
@@ -404,7 +408,8 @@ export default function AdminPage() {
             <h2>Manage availability</h2>
             <p id="slotRangeHelp">
               Add one slot, or choose an end date to repeat the same start time every
-              day through that date, including weekends.
+              day through that date, including weekends. Each slot must last 1 to 8
+              hours on the same day. Customers book the entire time range.
             </p>
             <form className="adminSlotForm" onSubmit={handleAddSlot}>
               <div className="formField">
@@ -442,6 +447,17 @@ export default function AdminPage() {
                   onChange={(event) => setSlotTime(event.target.value)}
                 />
               </div>
+              <div className="formField">
+                <label htmlFor="slotEndTime">End time</label>
+                <input
+                  id="slotEndTime"
+                  type="time"
+                  required
+                  disabled={isSavingSlot}
+                  value={slotEndTime}
+                  onChange={(event) => setSlotEndTime(event.target.value)}
+                />
+              </div>
               <button type="submit" className="submitBtn" disabled={isSavingSlot}>
                 {isSavingSlot ? 'Adding…' : 'Add availability'}
               </button>
@@ -454,7 +470,7 @@ export default function AdminPage() {
                 {slots.map((slot) => (
                   <div className="adminSlotItem" key={slot.id}>
                     <span>
-                      {formatBookingDate(slot.slot_date)} at {slot.slot_time.slice(0, 5)}
+                      {formatBookingDate(slot.slot_date)} at {formatSlotTime(slot.slot_time, slot.slot_end_time)}
                     </span>
                     <span className={slot.is_available ? 'slotAvailable' : 'slotUnavailable'}>
                       {slot.is_available ? 'Available' : 'Reserved'}
@@ -496,7 +512,7 @@ export default function AdminPage() {
                           <h3>{booking.customer_name}</h3>
                           <p>
                             {formatBookingDate(booking.preferred_date)} at{' '}
-                            {booking.preferred_time.slice(0, 5)}
+                            {formatSlotTime(booking.preferred_time, booking.preferred_end_time)}
                           </p>
                         </div>
                         <span className={`bookingStatus ${booking.status}`}>
@@ -579,7 +595,7 @@ export default function AdminPage() {
                             <option value="">Choose an available appointment</option>
                             {availableSlots.map((slot) => (
                               <option key={slot.id} value={slot.id}>
-                                {formatBookingDate(slot.slot_date)} at {slot.slot_time.slice(0, 5)}
+                                {formatBookingDate(slot.slot_date)} at {formatSlotTime(slot.slot_time, slot.slot_end_time)}
                               </option>
                             ))}
                           </select>

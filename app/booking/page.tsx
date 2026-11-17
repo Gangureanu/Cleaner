@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getSupabaseClient, type AvailabilitySlot } from '../../lib/supabase';
+import { formatSlotTime } from '../../lib/availability';
 
 function toDateKey(year: number, month: number, day: number) {
   return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -269,7 +270,7 @@ export default function BookingPage() {
                         className={`timeSlot ${selectedTime === slot.slot_time.slice(0, 5) ? 'selected' : ''}`}
                         onClick={() => setSelectedTime(slot.slot_time.slice(0, 5))}
                       >
-                        {slot.slot_time.slice(0, 5)}
+                        {formatSlotTime(slot.slot_time, slot.slot_end_time)}
                       </button>
                     ))}
                   </div>
@@ -298,7 +299,7 @@ export default function BookingPage() {
             </div>
             <div className="summaryRow">
               <span>Time:</span>
-              <strong>{selectedTime}</strong>
+              <strong>{formatSlotTime(selectedSlot.slot_time, selectedSlot.slot_end_time)}</strong>
             </div>
             <Link
               href={{
