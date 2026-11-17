@@ -32,13 +32,13 @@ export function Header() {
         <Link
           href="/"
           className="brandLink"
-          aria-label="Emerald Spotless Cleaning home"
+          aria-label="Emerald Spotless Cleaning Company home"
           onClick={() => setMenuOpen(false)}
         >
           <img src="/logo-icon.jpeg" alt="" className="brandIcon" width={48} height={43} />
           <span className="brandName">
             Emerald Spotless
-            <span>Cleaning</span>
+            <span>Cleaning Company</span>
           </span>
         </Link>
         <div className="headerActions">
