@@ -31,7 +31,6 @@ export default function ContactPage() {
         <article className="panelCard reveal">
           <h3>Address</h3>
           <p>Emerald Spotless</p>
-          <p>Brockagh</p>
           <p>Brockagh, Robertstown</p>
           <p>Naas, Co Kildare</p>
           <p>W91 C7RF</p>
